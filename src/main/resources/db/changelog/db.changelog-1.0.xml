@@ -1,0 +1,68 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+ http://www.liquibase.org/xml/ns/dbchangelog 
+ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+    <property name="uuid_type" value="uuid" dbms="postgresql" />
+    <property name="uuid_function" value="uuid_generate_v4()" dbms="postgresql" />
+    <property name="now_function" value="now()" dbms="postgresql" />
+
+    <changeSet author="lrodrigues" id="1">
+        <createTable tableName="user">
+            <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="username" type="VARCHAR(255)" />
+            <column name="fullname" type="VARCHAR(255)" />
+            <column name="email" type="VARCHAR(255)" />
+            <column name="password" type="VARCHAR(255)" />
+            <column name="initials" type="VARCHAR(255)" />
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="${now_function}" />
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="${now_function}" />
+        </createTable>
+
+        <createTable tableName="stock">
+            <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="VARCHAR(255)" />
+            <column name="from_wild" type="BOOLEAN" />
+            <column name="collection_date" type="DATE" />
+            <column name="collection_location" type="VARCHAR(255)" />
+            <column name="collection_details" type="VARCHAR(255)" />
+            <column name="date_of_birth" type="DATE" />
+            <column name="has_parents" type="BOOLEAN" />
+            <column name="mom_id" type="${uuid_type}" />
+            <column name="dad_id" type="${uuid_type}" />
+            <column name="responsible_user_id" type="${uuid_type}" />
+            <column name="relevance" type="VARCHAR(255)" />
+            <column name="comment" type="VARCHAR(255)" />
+            <column name="genotype" type="VARCHAR(255)" />
+            <column name="phenotype" type="VARCHAR(255)" />
+            <column name="number_of_males" type="INTEGER" />
+            <column name="number_of_females" type="INTEGER" />
+            <column name="number_of_hermaphrodites" type="INTEGER" />
+            <column name="number_of_juveniles" type="INTEGER" />
+            <column name="has_dna_sample" type="BOOLEAN" />
+            <column name="dna_sample_details" type="VARCHAR(255)" />
+            <column name="has_other_sample" type="BOOLEAN" />
+            <column name="other_sample_details" type="VARCHAR(255)" />
+            <column name="amount_founder_fish" type="INTEGER" />
+            <column name="last_check_date" type="VARCHAR(255)" />
+            <column name="last_check_user_id" type="${uuid_type}" />
+            <column name="photo1" type="VARCHAR(255)" />
+            <column name="photo2" type="VARCHAR(255)" />
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="${now_function}" />
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="${now_function}" />
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="mom_id" baseTableName="stock" baseTableSchemaName="public" constraintName="fk_stock_mom" deferrable="true" initiallyDeferred="true" onDelete="SET NULL" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="stock" referencedTableSchemaName="public" validate="true" />
+
+        <addForeignKeyConstraint baseColumnNames="dad_id" baseTableName="stock" baseTableSchemaName="public" constraintName="fk_stock_dad" deferrable="true" initiallyDeferred="true" onDelete="SET NULL" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="stock" referencedTableSchemaName="public" validate="true" />
+
+        <addForeignKeyConstraint baseColumnNames="responsible_user_id" baseTableName="stock" baseTableSchemaName="public" constraintName="fk_responsible_user" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="user" referencedTableSchemaName="public" validate="true" />
+
+        <addForeignKeyConstraint baseColumnNames="last_check_user_id" baseTableName="stock" baseTableSchemaName="public" constraintName="fk_last_check_user" deferrable="true" initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="user" referencedTableSchemaName="public" validate="true" />
+
+    </changeSet>
+</databaseChangeLog>
