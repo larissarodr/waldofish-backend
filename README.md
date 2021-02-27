@@ -1,7 +1,3 @@
-![alt text][logo]
-
-[logo]: https://github.com/larissarodr/waldofish-backend/blob/master/src/main/resources/assets/logo.png "WaldoFish"
-
 ![WaldoFish](/src/main/resources/assets/logo.png?raw=true)
 
 # waldofish-backend
